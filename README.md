@@ -1,1 +1,26 @@
 # innerSTG
+
+# todo
+- キーコンフィグ
+- タイトル画面
+- ステージ選択ステージ
+# 仕様
+- 画面サイズ
+  - 1080x720
+- パディング
+  - (7+4,7+30)
+- ゲーム画面サイズ(黒白緑青赤)
+  - 600x720
+    - 550x660
+      - 500x600
+        - 450x540
+          - 400x480
+# Object
+- GameObject
+    - double x,y
+    - int width,height
+    - double col
+    - String tag
+    - int hp
+    - int damage
+  - Player
