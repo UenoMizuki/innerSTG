@@ -15,6 +15,12 @@
       - 500x600
         - 450x540
           - 400x480
+- スコア表示
+  - 480x720
+    - 480x660
+      - 480x600
+        - 480x540
+          - 480x480
 # Object
 - GameObject
     - double x,y
@@ -23,4 +29,5 @@
     - String tag
     - int hp
     - int damage
+    - hit(gameObject a);
   - Player
