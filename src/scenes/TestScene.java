@@ -1,4 +1,4 @@
-package code.scene;
+package scenes;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -9,6 +9,7 @@ import java.util.List;
 import code.KeyManager;
 import code.Main;
 import code.object.GameObject;
+import code.scene.Scene;
 
 public class TestScene extends Scene {
 	List<GameObject> objects;

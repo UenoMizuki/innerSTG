@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import code.scene.Scene;
-import code.scene.TestScene;
+import scenes.TestScene;
 
 public class Main {
 

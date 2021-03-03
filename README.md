@@ -15,7 +15,7 @@
       - 500x600
         - 450x540
           - 400x480
-- スコア表示
+- スコア表示(仮)
   - 480x720
     - 480x660
       - 480x600
@@ -31,3 +31,11 @@
     - int damage
     - hit(gameObject a);
   - Player
+- Scene
+  - 画面に描画する
+    - 描画以外の表示
+    - ゲームスコアなどの表示
+    - GameSceneの描画
+- GameScene
+  - GameObjectの更新を行う
+  - Gameの描画を行う
