@@ -43,13 +43,14 @@ public class Key {
 		keys.put("RIGHT",RIGHT);
 		keys.put("LEFT",LEFT);
 	}
-	static void change(String a,String b) {
+	static void replace(String a,String b) {
 		if(keys.containsKey(a)&&keys.containsKey(b)) {
 			int n=keys.get(a);
 			keys.remove(a);
-			keys.put(b,keys.get(b));
+			keys.put(a,keys.get(b));
 			keys.remove(b);
-			keys.put(a, n);
+			keys.put(b, n);
+			return;
 		}
 
 		System.out.println("the key is None");

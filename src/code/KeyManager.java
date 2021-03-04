@@ -31,6 +31,7 @@ public class KeyManager implements KeyListener {
 		return keyNow[key];
 	}
 
+
 	public static boolean isPress(int key) {
 		return keyNow[key] && !keyPre[key];
 	}

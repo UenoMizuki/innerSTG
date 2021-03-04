@@ -37,6 +37,10 @@ public class Main {
 		KeyManager.Init(fr);
 		addScene(new TestScene());
 
+		Key.replace("UP", "W");
+		Key.replace("DOWN", "S");
+		Key.replace("RIGHT", "D");
+		Key.replace("LEFT", "A");
 		Timer timer = new Timer(1000 / FPS, e -> {
 			KeyManager.update();
 			update();

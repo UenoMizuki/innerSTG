@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class GameObject {
-	double x, y;
+	public double x, y;
 	int width, height;
 	double col;
 	String tag;
