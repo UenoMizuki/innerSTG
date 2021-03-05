@@ -16,6 +16,7 @@ public class GameScene extends Scene {
 	BufferedImage image;
 	int width, height;
 	int padding_x,padding_y;
+	public boolean isUpdate=true;
 
 	public GameScene(int width, int height,int padx,int pady) {
 		this.width = width;
@@ -27,7 +28,7 @@ public class GameScene extends Scene {
 
 	public void init() {
 		objects=new ArrayList<>();
-		objects.add(new GameObject(0.5,0.8,30,30,15,10,1,600,720) {public void update() {
+		objects.add(new GameObject(0.5,0.8,30,30,15,10,1,width,height) {public void update() {
 			double speed=0.01;
 			boolean isOddPress=KeyManager.isPressed(Key.get("DOWN"))^KeyManager.isPressed(Key.get("UP"))^KeyManager.isPressed(Key.get("RIGHT"))^KeyManager.isPressed(Key.get("LEFT"));
 			if(KeyManager.isPressed(Key.get("DOWN"))) {
@@ -59,5 +60,4 @@ public class GameScene extends Scene {
 		}
 		g2_temp.drawImage(image,padding_x,padding_y,width,height,null);
 	}
-
 }

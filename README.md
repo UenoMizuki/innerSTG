@@ -32,6 +32,9 @@
     - hit(gameObject a);
   - Player
 - Scene
+  - InfoSceneとGameSceneの管理
+  - Scene間のインターフェース
+- InfoScene
   - 画面に描画する
     - 描画以外の表示
     - ゲームスコアなどの表示
@@ -39,3 +42,4 @@
 - GameScene
   - GameObjectの更新を行う
   - Gameの描画を行う
+  - 一つのシーンのみ更新する(描画が重いので)

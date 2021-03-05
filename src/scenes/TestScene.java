@@ -9,23 +9,29 @@ import java.util.List;
 import code.KeyManager;
 import code.Main;
 import code.scene.GameScene;
+import code.scene.InfoScene;
 import code.scene.Scene;
 
 public class TestScene extends Scene {
 	List<GameScene> gameScenes;
+	InfoScene infoScene;
 	public void init() {
 		gameScenes=new ArrayList<>();
 		GameScene gs=new GameScene(550, 660,25,30);
 		gameScenes.add(gs);
 		gs.init();
+		infoScene=new InfoScene(480,720);
+		infoScene.init();
 	}
 
 	public void update() {
 		if (KeyManager.isPress(KeyEvent.VK_ESCAPE))
 			Main.removeScene();
 		for(int i=0;i<gameScenes.size();i++) {
-			gameScenes.get(i).update();
+			if(gameScenes.get(i).isUpdate)
+				gameScenes.get(i).update();
 		}
+		infoScene.update();
 	}
 
 	public void draw(Graphics2D g2) {
@@ -35,6 +41,7 @@ public class TestScene extends Scene {
 		for(int i=0;i<gameScenes.size();i++) {
 			gameScenes.get(i).draw(g2);
 		}
+		infoScene.draw(g2);
 		/*
 			g2.setColor(Color.white);
 			g2.fillRect(25, 30, 550, 660);
