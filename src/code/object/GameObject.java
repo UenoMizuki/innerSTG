@@ -12,6 +12,7 @@ public class GameObject {
 	int damage;
 	int window_w, window_h;
 	boolean invincible = false;
+	final int morton_x = 600 / 8, morton_y = 720 / 8;
 
 	public GameObject() {
 
@@ -43,6 +44,10 @@ public class GameObject {
 	public void draw(Graphics2D g2) {
 		g2.setColor(Color.GRAY);
 		g2.fillOval((int) (x * window_w) - width / 2, (int) (y * window_h) - height / 2, width, height);
+	}
+
+	public void calcMorton() {
+
 	}
 
 }
