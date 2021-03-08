@@ -19,6 +19,7 @@ public class Main {
 	public static final int FPS = 60;
 
 	public static final int WIDTH = 960, HEIGHT = 720;
+	public static final int GAME_WIDTH=600,GAME_HEIGHT=720;
 	public static final int FRAME_MARGIN = 7;
 	public static final int FRAME_MARGIN_Y = 30;
 	public static final int FRAME_MARGIN_X = 4;

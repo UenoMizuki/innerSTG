@@ -18,6 +18,8 @@ public class GameScene extends Scene {
 	int padding_x,padding_y;
 	public boolean isUpdate=true;
 
+
+
 	public GameScene(int width, int height,int padx,int pady) {
 		this.width = width;
 		this.height = height;
@@ -46,6 +48,9 @@ public class GameScene extends Scene {
 	public void update() {
 		for(int i=0;i<objects.size();i++) {
 			objects.get(i).update();
+		}
+		for(int i=0;i<objects.size();i++) {
+			int []m=objects.get(i).calcMorton();
 		}
 
 	}
