@@ -42,6 +42,8 @@ public class GameScene extends Scene {
 			}if(KeyManager.isPressed(Key.get("LEFT"))) {
 				this.x-=speed*(isOddPress?1:1.0/Math.sqrt(2));
 			}
+			this.x=this.x<0?0:this.x>1?1:this.x;
+			this.y=this.y<0?0:this.y>1?1:this.y;
 		}});
 	}
 
