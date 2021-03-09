@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
-import javax.swing.Timer;
 
 import code.scene.Scene;
 import scenes.TestScene;
@@ -19,7 +18,7 @@ public class Main {
 	public static final int FPS = 60;
 
 	public static final int WIDTH = 960, HEIGHT = 720;
-	public static final int GAME_WIDTH=600,GAME_HEIGHT=720;
+	public static final int GAME_WIDTH = 600, GAME_HEIGHT = 720;
 	public static final int FRAME_MARGIN = 7;
 	public static final int FRAME_MARGIN_Y = 30;
 	public static final int FRAME_MARGIN_X = 4;
@@ -42,12 +41,36 @@ public class Main {
 		Key.replace("DOWN", "S");
 		Key.replace("RIGHT", "D");
 		Key.replace("LEFT", "A");
-		Timer timer = new Timer(1000 / FPS, e -> {
-			KeyManager.update();
-			update();
+
+		long error = 0;
+		long idealSleep = (1000 << 16) / FPS;
+		long oldTime;
+		long newTime = System.currentTimeMillis() << 16;
+		while (true) {
+			oldTime = newTime;
+			update(); // メイン処理
+			newTime = System.currentTimeMillis() << 16;
+			long sleepTime = idealSleep - (newTime - oldTime) - error; // 休止できる時間
+			if (sleepTime < 0)
+				sleepTime = 0;
+			oldTime = newTime;
+			try {
+				Thread.sleep(sleepTime >> 16);
+			} catch (InterruptedException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			} // 休止
+			newTime = System.currentTimeMillis() << 16;
+			error = newTime - oldTime - sleepTime; // 休止時間の誤差
+		}
+		/*Timer timer = new Timer(1000 / FPS, e -> {
+			//KeyManager.update();
+			//update();
+			long a=System.currentTimeMillis();
+			System.out.println(a-po);
 		});
 		timer.setInitialDelay(0);
-		timer.start();
+		timer.start();*/
 	}
 
 	public static void addScene(Scene scene) {
@@ -64,6 +87,7 @@ public class Main {
 	}
 
 	public static void update() {
+		KeyManager.update();
 		g2 = (Graphics2D) backgroundImage.getGraphics();
 		g2.setColor(new Color(0x330055));
 		g2.fillRect(0, 0, WIDTH, HEIGHT);

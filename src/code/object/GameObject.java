@@ -22,13 +22,18 @@ public class GameObject {
 	final int morton_w = 600 / 8, morton_h = 720 / 8;
 	final int game_w=Main.GAME_WIDTH,game_h=Main.GAME_HEIGHT;
 
+	public Type type;
+
+	public enum Type {
+		PLAYER,BULLET,ENEMY,ENEMYBULLET
+	}
 
 	public GameObject() {
 
 	}
 
 	public GameObject(double x, double y, int width, int height, double col, int hp, int damage, int window_w,
-			int window_h) {
+			int window_h,Type type) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -38,6 +43,7 @@ public class GameObject {
 		this.damage = damage;
 		this.window_w = window_w;
 		this.window_h = window_h;
+		this.type=type;
 	}
 
 	public boolean hitCheck(GameObject o) {
