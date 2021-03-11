@@ -12,15 +12,16 @@ import code.scene.GameScene;
 import code.scene.InfoScene;
 import code.scene.Scene;
 
-public class TestScene extends Scene {
+public class ManageScene extends Scene {
 	List<GameScene> gameScenes;
 	InfoScene infoScene;
+	int score=0;
 	public void init() {
 		gameScenes=new ArrayList<>();
-		GameScene gs=new GameScene(550, 660,25,30);
+		GameScene gs=new GameScene(550, 660,25,30,this);
 		gameScenes.add(gs);
 		gs.init();
-		infoScene=new InfoScene(480,720);
+		infoScene=new InfoScene(480,720,this);
 		infoScene.init();
 	}
 
@@ -51,5 +52,10 @@ public class TestScene extends Scene {
 			g2.drawRect(75, 90, 450, 540);
 			g2.setColor(Color.red);
 			g2.drawRect(100, 120, 400, 480);*/
+	}
+	public void addScore(int score) {
+		this.score+=score;
+	}public int getScore() {
+		return score;
 	}
 }

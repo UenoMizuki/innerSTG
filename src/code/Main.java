@@ -9,13 +9,13 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import code.scene.Scene;
-import scenes.TestScene;
+import scenes.ManageScene;
 
 public class Main {
 
 	public static final String user_dir = System.getProperty("user.dir");
 
-	public static final int FPS = 60;
+	public static final int FPS = 30;
 
 	public static final int WIDTH = 960, HEIGHT = 720;
 	public static final int GAME_WIDTH = 600, GAME_HEIGHT = 720;
@@ -35,7 +35,7 @@ public class Main {
 	public static void main(String[] args) {
 		fr = new Frame(WINDOW_WIDTH, WINDOW_HEIGHT, "STG");
 		KeyManager.Init(fr);
-		addScene(new TestScene());
+		addScene(new ManageScene());
 
 		Key.replace("UP", "W");
 		Key.replace("DOWN", "S");
@@ -63,14 +63,6 @@ public class Main {
 			newTime = System.currentTimeMillis() << 16;
 			error = newTime - oldTime - sleepTime; // 休止時間の誤差
 		}
-		/*Timer timer = new Timer(1000 / FPS, e -> {
-			//KeyManager.update();
-			//update();
-			long a=System.currentTimeMillis();
-			System.out.println(a-po);
-		});
-		timer.setInitialDelay(0);
-		timer.start();*/
 	}
 
 	public static void addScene(Scene scene) {

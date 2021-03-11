@@ -9,6 +9,7 @@ import java.util.List;
 import code.Key;
 import code.KeyManager;
 import code.object.GameObject;
+import scenes.ManageScene;
 
 public class GameScene extends Scene {
 
@@ -22,16 +23,17 @@ public class GameScene extends Scene {
 	List<List<List<GameObject>>> bullets;
 	List<List<List<GameObject>>> enemies;
 	List<List<List<GameObject>>> enemybullets;
-
-	public GameScene(int width, int height, int padx, int pady) {
+	ManageScene ms;
+	public GameScene(int width, int height, int padx, int pady,ManageScene ms) {
 		this.width = width;
 		this.height = height;
 		this.padding_x = padx;
 		this.padding_y = pady;
 		image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+		this.ms=ms;
 	}
 
-	//重そう
+	//10microsecくらいだった
 	public void mortonInit(List<List<List<GameObject>>> o) {
 		o = new ArrayList<>();
 		for (int i = 0; i < 4; i++) {
@@ -71,12 +73,12 @@ public class GameScene extends Scene {
 	}
 
 	public void update() {
-		for (int i = 0; i < objects.size(); i++) {
-			objects.get(i).update();
-		}
 		mortonInit(bullets);
 		mortonInit(enemies);
 		mortonInit(enemybullets);
+		for (int i = 0; i < objects.size(); i++) {
+			objects.get(i).update();
+		}
 		for (int i = 0; i < objects.size(); i++) {
 			GameObject o = objects.get(i);
 			int[] m = o.calcMorton();
@@ -106,5 +108,8 @@ public class GameScene extends Scene {
 			objects.get(i).draw(g2);
 		}
 		g2_temp.drawImage(image, padding_x, padding_y, width, height, null);
+	}void addScore(int score){
+		ms.addScore(score);
 	}
 }
+
