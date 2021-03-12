@@ -16,6 +16,7 @@ public class ManageScene extends Scene {
 	List<GameScene> gameScenes;
 	InfoScene infoScene;
 	int score=0;
+	int gameSceneIndex=0;
 	public void init() {
 		gameScenes=new ArrayList<>();
 		GameScene gs=new GameScene(550, 660,25,30,this);
@@ -57,5 +58,7 @@ public class ManageScene extends Scene {
 		this.score+=score;
 	}public int getScore() {
 		return score;
+	}public GameScene getGameScene() {
+		return gameScenes.get(gameSceneIndex);
 	}
 }

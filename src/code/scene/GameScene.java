@@ -6,14 +6,14 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import code.Key;
-import code.KeyManager;
+import code.Main;
 import code.object.GameObject;
+import code.object.Player;
 import scenes.ManageScene;
 
 public class GameScene extends Scene {
 
-	List<GameObject> objects;
+	public List<GameObject> objects;
 	BufferedImage image;
 	int width, height;
 	int padding_x, padding_y;
@@ -34,8 +34,8 @@ public class GameScene extends Scene {
 	}
 
 	//10microsecくらいだった
-	public void mortonInit(List<List<List<GameObject>>> o) {
-		o = new ArrayList<>();
+	public List<List<List<GameObject>>> mortonInit() {
+		List<List<List<GameObject>>>o = new ArrayList<>();
 		for (int i = 0; i < 4; i++) {
 			List<List<GameObject>> space = new ArrayList<>();
 			for (int j = 0; j < Math.pow(4, i); j++) {
@@ -44,38 +44,19 @@ public class GameScene extends Scene {
 			}
 			o.add(space);
 		}
+		return o;
 	}
 
 	public void init() {
 		objects = new ArrayList<>();
-		player=new GameObject(0.5, 0.8, 30, 30, 15, 10, 1, width, height, GameObject.Type.PLAYER) {
-			public void update() {
-				double speed = 0.01;
-				boolean isOddPress = KeyManager.isPressed(Key.get("DOWN")) ^ KeyManager.isPressed(Key.get("UP"))
-						^ KeyManager.isPressed(Key.get("RIGHT")) ^ KeyManager.isPressed(Key.get("LEFT"));
-				if (KeyManager.isPressed(Key.get("DOWN"))) {
-					this.y += speed * (isOddPress ? 1 : 1.0 / Math.sqrt(2));
-				}
-				if (KeyManager.isPressed(Key.get("UP"))) {
-					this.y -= speed * (isOddPress ? 1 : 1.0 / Math.sqrt(2));
-				}
-				if (KeyManager.isPressed(Key.get("RIGHT"))) {
-					this.x += speed * (isOddPress ? 1 : 1.0 / Math.sqrt(2));
-				}
-				if (KeyManager.isPressed(Key.get("LEFT"))) {
-					this.x -= speed * (isOddPress ? 1 : 1.0 / Math.sqrt(2));
-				}
-				this.x = this.x < 0 ? 0 : this.x > 1 ? 1 : this.x;
-				this.y = this.y < 0 ? 0 : this.y > 1 ? 1 : this.y;
-			}
-		};
+		player=new Player( width, height, ms);
 		objects.add(player);
 	}
 
 	public void update() {
-		mortonInit(bullets);
-		mortonInit(enemies);
-		mortonInit(enemybullets);
+		bullets=mortonInit();
+		enemies=mortonInit();
+		enemybullets=mortonInit();
 		for (int i = 0; i < objects.size(); i++) {
 			objects.get(i).update();
 		}
@@ -96,6 +77,9 @@ public class GameScene extends Scene {
 				break;
 			}
 		}//ヒットチェック
+		if(Main.debug) {
+			System.out.println(objects.size());
+		}
 
 	}
 

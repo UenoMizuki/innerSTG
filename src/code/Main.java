@@ -2,6 +2,7 @@ package code;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,8 @@ public class Main {
 	static List<Scene> scenes = new ArrayList<>();
 	static int sceneNum = -1;
 
+	public static boolean debug=false;
+
 	static BufferedImage backgroundImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_4BYTE_ABGR);
 
 	public static void main(String[] args) {
@@ -41,6 +44,7 @@ public class Main {
 		Key.replace("DOWN", "S");
 		Key.replace("RIGHT", "D");
 		Key.replace("LEFT", "A");
+		Key.replace("Z", "M");
 
 		long error = 0;
 		long idealSleep = (1000 << 16) / FPS;
@@ -80,6 +84,9 @@ public class Main {
 
 	public static void update() {
 		KeyManager.update();
+		if(KeyManager.isPress(KeyEvent.VK_P)&&KeyManager.onPressed(KeyEvent.VK_SHIFT)) {
+			debug^=true;
+		}
 		g2 = (Graphics2D) backgroundImage.getGraphics();
 		g2.setColor(new Color(0x330055));
 		g2.fillRect(0, 0, WIDTH, HEIGHT);

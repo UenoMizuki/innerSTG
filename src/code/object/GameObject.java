@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import code.Main;
+import scenes.ManageScene;
 
 public class GameObject {
 	public double x, y;
@@ -23,7 +24,7 @@ public class GameObject {
 	final int game_w=Main.GAME_WIDTH,game_h=Main.GAME_HEIGHT;
 
 	public Type type;
-
+	ManageScene ms;
 	public enum Type {
 		PLAYER,BULLET,ENEMY,ENEMYBULLET
 	}
@@ -63,6 +64,9 @@ public class GameObject {
 
 	public void draw(Graphics2D g2) {
 		g2.setColor(Color.GRAY);
+		drawObject(g2);
+	}
+	public void drawObject(Graphics2D g2) {
 		g2.fillOval((int) (x * window_w) - width / 2, (int) (y * window_h) - height / 2, width, height);
 	}
 
