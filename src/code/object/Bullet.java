@@ -13,6 +13,7 @@ public class Bullet extends GameObject{
 	}
 	public void update() {
 		y-=0.05;
+		isDead=offscreen();
 	}
 	public void draw(Graphics2D g2) {
 		g2.setColor(Color.yellow);
