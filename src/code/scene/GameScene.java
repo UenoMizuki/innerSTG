@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import code.Main;
+import code.object.Enemy;
 import code.object.EnemyBullet;
 import code.object.GameObject;
 import code.object.GameObject.Type;
@@ -22,7 +23,7 @@ public class GameScene extends Scene {
 	int padding_x, padding_y;
 	public boolean isUpdate = true;
 
-	GameObject player;
+	Player player;
 	List<List<List<GameObject>>> bullets;
 	List<List<List<GameObject>>> enemies;
 	List<List<List<GameObject>>> enemybullets;
@@ -55,6 +56,7 @@ public class GameScene extends Scene {
 		objects = new ArrayList<>();
 		player = new Player(width, height, ms);
 		objects.add(player);
+		objects.add(new Enemy(0.5, 0.3, 10, 10, 5 , 100 , 3, width, height,ms));
 	}
 
 	public void update() {
@@ -79,6 +81,8 @@ public class GameScene extends Scene {
 			int[] m = o.calcMorton();
 			switch (o.type) {
 			case PLAYER:
+				player.spaceNum=m[0];
+				player.num=m[1];
 				break;
 			case ENEMY:
 				enemies.get(m[0]).get(m[1]).add(o);
@@ -91,6 +95,8 @@ public class GameScene extends Scene {
 				break;
 			}
 		} //ヒットチェック
+		//プレイヤー
+		//弾
 		if (Main.debug) {
 			System.out.println(objects.size());
 		}
