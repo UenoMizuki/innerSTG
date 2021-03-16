@@ -17,7 +17,7 @@ public class GameObject {
 	//高いほど描画優先度が高い
 	public int draw_priority = 100;
 	int hp;
-	int damage;
+	public int damage;
 	int window_w, window_h;
 	boolean invincible = false;
 	final int morton_w = 600 / 8, morton_h = 720 / 8;
@@ -26,7 +26,7 @@ public class GameObject {
 	public Type type;
 	ManageScene ms;
 
-	public boolean isDead=false;
+	public boolean isDead = false;
 
 	public enum Type {
 		PLAYER, BULLET, ENEMY, ENEMYBULLET
@@ -52,13 +52,16 @@ public class GameObject {
 
 	public boolean hitCheck(GameObject o) {
 
-		return Math.pow(x * window_w - o.x * o.window_w, 2) + Math.pow(y * window_h - o.y * o.window_h, 2) >= Math
+		return Math.pow(x * window_w - o.x * o.window_w, 2) + Math.pow(y * window_h - o.y * o.window_h, 2) <= Math
 				.pow(col + o.col, 2);
 	}
 
 	//死亡時にtrue
 	public boolean hit(int damage) {
 		hp -= damage;
+		if (Main.debug) {
+			System.out.println("hit");
+		}
 		return hp <= 0;
 	}
 

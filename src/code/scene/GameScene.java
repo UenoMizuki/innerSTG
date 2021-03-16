@@ -56,7 +56,7 @@ public class GameScene extends Scene {
 		objects = new ArrayList<>();
 		player = new Player(width, height, ms);
 		objects.add(player);
-		objects.add(new Enemy(0.5, 0.3, 10, 10, 5 , 100 , 3, width, height,ms));
+		objects.add(new Enemy(0.5, 0.3, 10, 10, 5, 100, 3, width, height, ms));
 	}
 
 	public void update() {
@@ -65,12 +65,12 @@ public class GameScene extends Scene {
 		enemybullets = mortonInit();
 		Random r = new Random();
 		if (r.nextInt() % 3 == 0) {
-			objects.add(new EnemyBullet((r.nextDouble()), (r.nextDouble()) / 4, 10, 10, 5, 10, 1, width, height, ms));
+			objects.add(new EnemyBullet((r.nextDouble()), (r.nextDouble()) / 4, 10, 10, 5, 1, 1, width, height, ms));
 		}
 		for (int i = 0; i < objects.size(); i++) {
 			objects.get(i).update();
 			if (objects.get(i).isDead) {
-				if(objects.get(i).type==Type.ENEMYBULLET) {
+				if (objects.get(i).type == Type.ENEMYBULLET) {
 					addScore(100);
 				}
 				objects.remove(i--);
@@ -81,8 +81,8 @@ public class GameScene extends Scene {
 			int[] m = o.calcMorton();
 			switch (o.type) {
 			case PLAYER:
-				player.spaceNum=m[0];
-				player.num=m[1];
+				player.spaceNum = m[0];
+				player.num = m[1];
 				break;
 			case ENEMY:
 				enemies.get(m[0]).get(m[1]).add(o);
@@ -94,8 +94,27 @@ public class GameScene extends Scene {
 				enemybullets.get(m[0]).get(m[1]).add(o);
 				break;
 			}
-		} //ヒットチェック
+		}
+		//ヒットチェック
 		//プレイヤー
+		if (player.spaceNum != 0) {
+			for (int i = enemybullets.size() - 1; i >= 0; i--) {
+				for (int j = 0; j < enemybullets.get(i).size(); j++) {
+					for (int k = 0; k < enemybullets.get(i).get(j).size(); k++) {
+						if(player.hitCheck(enemybullets.get(i).get(j).get(k))) {
+							player.hit(enemybullets.get(i).get(j).get(k).damage);
+							if(enemybullets.get(i).get(j).get(k).hit(player.damage)) {
+								objects.remove(enemybullets.get(i).get(j).get(k));
+							}
+						}
+						
+					}
+				}
+			}
+			for (int i = 3; i >= 0; i--) {
+
+			}
+		}
 		//弾
 		if (Main.debug) {
 			System.out.println(objects.size());
