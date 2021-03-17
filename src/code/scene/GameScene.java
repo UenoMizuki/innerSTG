@@ -97,29 +97,79 @@ public class GameScene extends Scene {
 		}
 		//ヒットチェック
 		//プレイヤー
-		if (player.spaceNum != 0) {
-			for (int i = enemybullets.size() - 1; i >= 0; i--) {
-				for (int j = 0; j < enemybullets.get(i).size(); j++) {
-					for (int k = 0; k < enemybullets.get(i).get(j).size(); k++) {
-						if(player.hitCheck(enemybullets.get(i).get(j).get(k))) {
-							player.hit(enemybullets.get(i).get(j).get(k).damage);
-							if(enemybullets.get(i).get(j).get(k).hit(player.damage)) {
-								objects.remove(enemybullets.get(i).get(j).get(k));
-							}
-						}
-						
+		mortonCheck(player.spaceNum, player.num, player, enemybullets);
+		mortonCheckUp(player.spaceNum, player.num, player, enemybullets);
+
+		mortonCheck(player.spaceNum, player.num, player, enemies);
+		mortonCheckUp(player.spaceNum, player.num, player, enemies);
+		//弾
+		for (int i = 3; i >= 0; i--) {
+			for (int j = 0; j < bullets.get(i).size(); j++) {
+				for (int k = 0; k < bullets.get(i).get(j).size(); k++) {
+					if(mortonCheck(i,j,bullets.get(i).get(j).get(k),enemies)) {
+						objects.remove(bullets.get(i).get(j).get(k));
+						bullets.get(i).get(j).remove(k);
+						k--;
+					}else if(mortonCheckUp(i,j,bullets.get(i).get(j).get(k),enemies)){
+						objects.remove(bullets.get(i).get(j).get(k));
+						bullets.get(i).get(j).remove(k);
+						k--;
 					}
 				}
 			}
-			for (int i = 3; i >= 0; i--) {
-
-			}
 		}
-		//弾
 		if (Main.debug) {
 			System.out.println(objects.size());
 		}
 
+	}
+
+	public boolean mortonCheck(int n, int m, GameObject o, List<List<List<GameObject>>> obj) {
+		boolean b = false;
+		for (int i = 0; i < obj.get(n).get(m).size(); i++) {
+			if (obj.get(n).get(m).get(i).hitCheck(o)) {
+				b = o.hit(obj.get(n).get(m).get(i).damage);
+				if (obj.get(n).get(m).get(i).hit(o.damage)) {
+					objects.remove(obj.get(n).get(m).get(i));
+					obj.get(n).get(m).remove(i);
+					i--;
+				}
+				if (b)
+					return true;
+			}
+		}
+		if (n == 3) {
+			return b;
+		} else {
+			if (mortonCheck(n + 1, m << 2, o, obj))
+				return true;
+			if (mortonCheck(n + 1, (m << 2) + 1, o, obj))
+				return true;
+			if (mortonCheck(n + 1, (m << 2) + 2, o, obj))
+				return true;
+			return mortonCheck(n + 1, (m << 2) + 3, o, obj);
+		}
+	}
+
+	public boolean mortonCheckUp(int n, int m, GameObject o, List<List<List<GameObject>>> obj) {
+		boolean b = false;
+		if (n == 0)
+			return false;
+		n--;
+		m = m >> 2;
+		for (int i = 0; i < obj.get(n).get(m).size(); i++) {
+			if (obj.get(n).get(m).get(i).hitCheck(o)) {
+				b = o.hit(obj.get(n).get(m).get(i).damage);
+				if (obj.get(n).get(m).get(i).hit(o.damage)) {
+					objects.remove(obj.get(n).get(m).get(i));
+					obj.get(n).get(m).remove(i);
+					i--;
+				}
+				if (b)
+					return true;
+			}
+		}
+		return mortonCheck(n, m, o, obj);
 	}
 
 	public void draw(Graphics2D g2) {

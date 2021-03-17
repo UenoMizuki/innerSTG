@@ -13,7 +13,7 @@ public class Player extends GameObject {
 		this.ms=ms;
 	}
 	public Player(int width,int height,ManageScene ms) {
-		this(0.5,0.8,30,30,15,10,1,width,height,ms);
+		this(0.5,0.8,10,10,5,10,1,width,height,ms);
 	}
 	public void update() {
 		double speed = 0.01;

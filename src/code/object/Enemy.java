@@ -14,7 +14,7 @@ public class Enemy extends GameObject{
 	}
 	public void update() {
 		if(++count%10==0) {
-			ms.getGameScene().objects.add(new EnemyBullet(x,y,10,10,5,10,1,window_w,window_h,ms));
+			ms.getGameScene().objects.add(new EnemyBullet(x,y,10,10,5,1,1,window_w,window_h,ms));
 		}
 		isDead=offscreen();
 	}
