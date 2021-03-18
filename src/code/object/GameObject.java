@@ -25,8 +25,13 @@ public class GameObject {
 
 	public Type type;
 	ManageScene ms;
+	public AreaType areaType = AreaType.CIRCLE;
 
 	public boolean isDead = false;
+
+	public enum AreaType {
+		CIRCLE, SQUARE
+	}
 
 	public enum Type {
 		PLAYER, BULLET, ENEMY, ENEMYBULLET
@@ -50,10 +55,44 @@ public class GameObject {
 		this.type = type;
 	}
 
-	public boolean hitCheck(GameObject o) {
+	public GameObject(double x, double y, int width, int height, double col, int hp, int damage, int window_w,
+			int window_h, Type type, AreaType areaType) {
+		this(x, y, width, height, col, hp, damage, window_w, window_h, type);
+		this.areaType = areaType;
+	}
 
-		return Math.pow(x * window_w - o.x * o.window_w, 2) + Math.pow(y * window_h - o.y * o.window_h, 2) <= Math
-				.pow(col + o.col, 2);
+	public boolean hitCheck(GameObject o) {
+		if (this.areaType == AreaType.CIRCLE && o.areaType == AreaType.CIRCLE)
+			return Math.pow(x * window_w - o.x * o.window_w, 2) + Math.pow(y * window_h - o.y * o.window_h, 2) <= Math
+					.pow(col + o.col, 2);
+		else if (this.areaType == AreaType.CIRCLE && o.areaType == AreaType.SQUARE) {
+			return false;
+		} else if (this.areaType == AreaType.SQUARE && o.areaType == AreaType.CIRCLE) {
+			return false;
+		} else {
+			return false;
+		}
+	}
+
+	double calc_dist(double xs, double ys, double xe, double ye, double x, double y) {
+		double x0 = x, y0 = y;
+		double x1 = xs, y1 = ys;
+		double x2 = xe, y2 = ye;
+
+		double a = x2 - x1;
+		double b = y2 - y1;
+		double a2 = a * a;
+		double b2 = b * b;
+		double r2 = a2 + b2;
+		double tt = -(a * (x1 - x0) + b * (y1 - y0));
+
+		if (tt < 0)
+			return Math.sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0));
+		else if (tt > r2)
+			return Math.sqrt((x2 - x0) * (x2 - x0) + (y2 - y0) * (y2 - y0));
+
+		double f1 = a * (y1 - y0) - b * (x1 - x0);
+		return Math.sqrt((f1 * f1) / r2);
 	}
 
 	//死亡時にtrue
