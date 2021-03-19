@@ -56,7 +56,7 @@ public class GameScene extends Scene {
 		objects = new ArrayList<>();
 		player = new Player(width, height, ms);
 		objects.add(player);
-		objects.add(new Enemy(0.5, 0.3, 10, 10, 5, 100, 3, width, height, ms));
+		objects.add(new Enemy(0.5, 0.3, 10, 10, 5, 5, 100, 3, width, height, ms));
 	}
 
 	public void update() {
@@ -65,7 +65,7 @@ public class GameScene extends Scene {
 		enemybullets = mortonInit();
 		Random r = new Random();
 		if (r.nextInt() % 3 == 0) {
-			objects.add(new EnemyBullet((r.nextDouble()), (r.nextDouble()) / 4, 10, 10, 5, 1, 1, width, height, ms));
+			objects.add(new EnemyBullet((r.nextDouble()), (r.nextDouble()) / 4, 10, 10, 5, 5, 1, 1, width, height, ms));
 		}
 		for (int i = 0; i < objects.size(); i++) {
 			objects.get(i).update();
@@ -106,11 +106,11 @@ public class GameScene extends Scene {
 		for (int i = 3; i >= 0; i--) {
 			for (int j = 0; j < bullets.get(i).size(); j++) {
 				for (int k = 0; k < bullets.get(i).get(j).size(); k++) {
-					if(mortonCheck(i,j,bullets.get(i).get(j).get(k),enemies)) {
+					if (mortonCheck(i, j, bullets.get(i).get(j).get(k), enemies)) {
 						objects.remove(bullets.get(i).get(j).get(k));
 						bullets.get(i).get(j).remove(k);
 						k--;
-					}else if(mortonCheckUp(i,j,bullets.get(i).get(j).get(k),enemies)){
+					} else if (mortonCheckUp(i, j, bullets.get(i).get(j).get(k), enemies)) {
 						objects.remove(bullets.get(i).get(j).get(k));
 						bullets.get(i).get(j).remove(k);
 						k--;

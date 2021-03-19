@@ -9,7 +9,7 @@ import scenes.ManageScene;
 public class GameObject {
 	public double x, y;
 	int width, height;
-	double col;
+	double col_x, col_y;
 	//PLAYER,ENEMY,EBUL,PBUL,EFFECT
 	public String tag;
 	//高いほど処理優先度が高い
@@ -18,6 +18,7 @@ public class GameObject {
 	public int draw_priority = 100;
 	int hp;
 	public int damage;
+	double rad = 0;
 	int window_w, window_h;
 	boolean invincible = false;
 	final int morton_w = 600 / 8, morton_h = 720 / 8;
@@ -41,13 +42,15 @@ public class GameObject {
 
 	}
 
-	public GameObject(double x, double y, int width, int height, double col, int hp, int damage, int window_w,
+	public GameObject(double x, double y, int width, int height, double col_x, double col_y, int hp, int damage,
+			int window_w,
 			int window_h, Type type) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.col = col;
+		this.col_x = col_x;
+		this.col_y = col_y;
 		this.hp = hp;
 		this.damage = damage;
 		this.window_w = window_w;
@@ -55,16 +58,17 @@ public class GameObject {
 		this.type = type;
 	}
 
-	public GameObject(double x, double y, int width, int height, double col, int hp, int damage, int window_w,
+	public GameObject(double x, double y, int width, int height, double col_x, double col_y, int hp, int damage,
+			int window_w,
 			int window_h, Type type, AreaType areaType) {
-		this(x, y, width, height, col, hp, damage, window_w, window_h, type);
+		this(x, y, width, height, col_x, col_y, hp, damage, window_w, window_h, type);
 		this.areaType = areaType;
 	}
 
 	public boolean hitCheck(GameObject o) {
 		if (this.areaType == AreaType.CIRCLE && o.areaType == AreaType.CIRCLE)
 			return Math.pow(x * window_w - o.x * o.window_w, 2) + Math.pow(y * window_h - o.y * o.window_h, 2) <= Math
-					.pow(col + o.col, 2);
+					.pow(col_x + o.col_x, 2);
 		else if (this.areaType == AreaType.CIRCLE && o.areaType == AreaType.SQUARE) {
 			return false;
 		} else if (this.areaType == AreaType.SQUARE && o.areaType == AreaType.CIRCLE) {
@@ -124,15 +128,24 @@ public class GameObject {
 
 	//所属空間(root:0,親:1,子:2,孫:3),所属空間内での番号
 	public int[] calcMorton() {
-		int mx0 = ((int) (x * game_w + col)) / morton_w;
-		int my0 = ((int) (y * game_h + col)) / morton_h;
-		int mx1 = ((int) (x * game_w - col)) / morton_w;
-		int my1 = ((int) (y * game_h - col)) / morton_h;
+		int mx0=0;
+		int my0=0;
+		int mx1=0;
+		int my1=0;
+		if (areaType == AreaType.CIRCLE) {
+
+			mx0 = ((int) (x * game_w + col_x)) / morton_w;
+			my0 = ((int) (y * game_h + col_y)) / morton_h;
+			mx1 = ((int) (x * game_w - col_x)) / morton_w;
+			my1 = ((int) (y * game_h - col_y)) / morton_h;
+		} else if(areaType==AreaType.SQUARE){
+			///////ここ描こうね
+
+		}
 		int m0 = (mx0 & 4) * 4 + (mx0 & 2) * 2 + (mx0 & 1) + (my0 & 4) * 8 + (my0 & 2) * 4 + (my0 & 1) * 2;
 		int m1 = (mx1 & 4) * 4 + (mx1 & 2) * 2 + (mx1 & 1) + (my1 & 4) * 8 + (my1 & 2) * 4 + (my1 & 1) * 2;
 		int m = m0 ^ m1;
 		int spacenum = ((m & 48) != 0) ? 0 : ((m & 12) != 0) ? 1 : ((m & 3) != 0) ? 2 : 3;
 		return new int[] { spacenum, m0 >> ((3 - spacenum) * 2) };
 	}
-
 }
