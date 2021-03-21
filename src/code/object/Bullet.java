@@ -16,7 +16,7 @@ public class Bullet extends GameObject{
 		this.areaType=areaType;
 	}
 	public void update() {
-		y-=0.05;
+		y-=0.50;
 		isDead=offscreen();
 	}
 	public void draw(Graphics2D g2) {

@@ -9,8 +9,8 @@ import java.util.Random;
 
 import code.Main;
 import code.object.Enemy;
-import code.object.EnemyBullet;
 import code.object.GameObject;
+import code.object.GameObject.AreaType;
 import code.object.GameObject.Type;
 import code.object.Player;
 import scenes.ManageScene;
@@ -56,7 +56,12 @@ public class GameScene extends Scene {
 		objects = new ArrayList<>();
 		player = new Player(width, height, ms);
 		objects.add(player);
-		objects.add(new Enemy(0.5, 0.3, 10, 10, 5, 5, 100, 3, width, height, ms));
+		//objects.add(new Enemy(0.5, 0.3, 10, 10, 5, 5, 100, 3, width, height, ms));
+		objects.add(new Enemy(0.5, 0.3, 10, 40, 50, 200, 100, 3, width, height, ms,AreaType.SQUARE) {
+			public void update() {
+				rad+=0.01;
+			}
+		});
 	}
 
 	public void update() {
@@ -64,9 +69,18 @@ public class GameScene extends Scene {
 		enemies = mortonInit();
 		enemybullets = mortonInit();
 		Random r = new Random();
-		if (r.nextInt() % 3 == 0) {
+		/*if (r.nextInt() % 3 == 0) {
 			objects.add(new EnemyBullet((r.nextDouble()), (r.nextDouble()) / 4, 10, 10, 5, 5, 1, 1, width, height, ms));
+		}*/if (r.nextInt() % 3 == 0) {
+			objects.add(new Enemy((r.nextDouble()), (r.nextDouble()) / 4, 10, 10, 5, 10, 10, 3, width, height, ms,AreaType.SQUARE) {
+				double rada=((r.nextDouble()>0.5)?1:-1)*r.nextDouble()/10;
+				public void update() {
+					y+=0.005;
+					rad+=rada;
+				}
+			});
 		}
+
 		for (int i = 0; i < objects.size(); i++) {
 			objects.get(i).update();
 			if (objects.get(i).isDead) {
@@ -119,7 +133,7 @@ public class GameScene extends Scene {
 			}
 		}
 		if (Main.debug) {
-			System.out.println(objects.size());
+			//System.out.println(objects.size());
 		}
 
 	}
@@ -169,7 +183,7 @@ public class GameScene extends Scene {
 					return true;
 			}
 		}
-		return mortonCheck(n, m, o, obj);
+		return mortonCheckUp(n, m, o, obj);
 	}
 
 	public void draw(Graphics2D g2) {
